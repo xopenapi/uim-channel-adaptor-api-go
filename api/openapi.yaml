@@ -1,0 +1,886 @@
+openapi: 3.0.1
+info:
+  description: uim channel adaptor api
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  title: Uim channel adaptor api
+  version: 1.0.0
+servers:
+- url: http://localhost:58100/app/wechatmp/adaptor/v1
+tags:
+- description: channel adaptor
+  name: adaptor
+paths:
+  /sendMessage:
+    post:
+      description: 往给定channel发送消息
+      operationId: sendMessage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendMessageReq'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+          description: successful operation
+      summary: 往给定channel发送消息
+      tags:
+      - channel adaptor
+      x-codegen-request-body-name: body
+  /listContact:
+    post:
+      description: 获取运营号所有联系人信息
+      operationId: listContact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListContactReq'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+          description: successful operation
+      summary: 获取运营号所有联系人信息
+      tags:
+      - channel adaptor
+      x-codegen-request-body-name: body
+  /contactDetail:
+    post:
+      description: 获取单个联系人详情
+      operationId: contactDetail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactDetailReq'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+          description: successful operation
+      summary: 获取单个联系人详情
+      tags:
+      - channel adaptor
+      x-codegen-request-body-name: body
+  /profileDetail:
+    post:
+      description: 获取运营号详情
+      operationId: profileDetail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileDetailReq'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_3'
+          description: successful operation
+      summary: 获取运营号详情
+      tags:
+      - channel adaptor
+      x-codegen-request-body-name: body
+  /updateProfile:
+    post:
+      description: 更新运营号信息
+      operationId: updateProfile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfileReq'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIResponse'
+          description: successful operation
+      summary: 更新运营号信息
+      tags:
+      - channel adaptor
+      x-codegen-request-body-name: body
+  /updateContact:
+    post:
+      description: 更新联系人信息
+      operationId: updateContact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateContactReq'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIResponse'
+          description: successful operation
+      summary: 更新联系人信息
+      tags:
+      - channel adaptor
+      x-codegen-request-body-name: body
+  /channelEvent:
+    post:
+      description: 渠道事件
+      operationId: channelEvent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdaptorAPIEvent'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_4'
+          description: successful operation
+      summary: 渠道事件
+      tags:
+      - channel adaptor
+      x-codegen-request-body-name: body
+  /sendCommand:
+    post:
+      description: 通用命令
+      operationId: sendCommand
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendCommandReq'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_5'
+          description: successful operation
+      summary: 通用命令
+      tags:
+      - channel adaptor
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    SendMessageReq:
+      example:
+        platformGid: platformGid
+        profilePlatformUid: profilePlatformUid
+        messageType: 6
+        tenantId: tenantId
+        sessionType: 1
+        contactPlatformUid: contactPlatformUid
+        serviceID: 5
+        content: content
+        direction: 0
+      properties:
+        tenantId:
+          description: 租户Id
+          type: string
+        profilePlatformUid:
+          description: 运营号渠道Id
+          type: string
+        contactPlatformUid:
+          description: 联系人渠道Id
+          type: string
+        platformGid:
+          description: 群组渠道Id
+          type: string
+        direction:
+          description: 消息方向 1 接收 2 发送
+          format: int32
+          type: integer
+        messageType:
+          description: 消息类型
+          format: int32
+          type: integer
+        sessionType:
+          description: 会话类型
+          format: int32
+          type: integer
+        content:
+          description: 消息内容
+          type: string
+        serviceID:
+          description: 渠道Id
+          format: int32
+          type: integer
+      type: object
+    ListContactReq:
+      example:
+        profilePlatformUid: profilePlatformUid
+        extra: extra
+        profileCustomID: profileCustomID
+        serviceID: 0
+      properties:
+        profilePlatformUid:
+          description: 运营号渠道Id
+          type: string
+        profileCustomID:
+          description: 运营号渠道自定义Id
+          type: string
+        serviceID:
+          description: 渠道Id
+          format: int32
+          type: integer
+        extra:
+          description: 运营号扩展信息
+          type: string
+      type: object
+    ContactDetailReq:
+      example:
+        profileCustomUid: profileCustomUid
+        customUid: customUid
+        platformUid: platformUid
+        profilePlatformUid: profilePlatformUid
+        extra: extra
+        serviceID: 0
+      properties:
+        profilePlatformUid:
+          description: 运营号渠道id
+          type: string
+        profileCustomUid:
+          description: 运营号渠道自定义id
+          type: string
+        platformUid:
+          description: 联系人渠道id
+          type: string
+        customUid:
+          description: 联系人渠道自定义id
+          type: string
+        serviceID:
+          description: 渠道id
+          format: int32
+          type: integer
+        extra:
+          description: 扩展信息
+          type: string
+      type: object
+    UpdateContactReq:
+      example:
+        profileCustomUid: profileCustomUid
+        profilePlatformUid: profilePlatformUid
+        extra: extra
+        contact:
+          country: country
+          platformUid: platformUid
+          gender: 6
+          city: city
+          signature: signature
+          avatar: avatar
+          type: 1
+          customID: customID
+          tags:
+          - tags
+          - tags
+          extra: extra
+          nickname: nickname
+          id: id
+          state: state
+          serviceID: 5
+        serviceID: 0
+        updateType: updateType
+      properties:
+        profilePlatformUid:
+          description: 运营号渠道id
+          type: string
+        profileCustomUid:
+          description: 运营号渠道自定义id
+          type: string
+        serviceID:
+          description: 渠道id
+          format: int32
+          type: integer
+        updateType:
+          description: 更新类型
+          type: string
+        extra:
+          description: 扩展信息
+          type: string
+        contact:
+          $ref: '#/components/schemas/Contact'
+      type: object
+    UpdateProfileReq:
+      example:
+        profileCustomUid: profileCustomUid
+        profilePlatformUid: profilePlatformUid
+        extra: extra
+        profile:
+          country: country
+          platformUid: platformUid
+          appVersion: appVersion
+          gender: gender
+          productID: 7
+          city: city
+          signature: signature
+          qrcode: qrcode
+          contactCount: 2
+          balance: 5
+          mobilephone: mobilephone
+          extra: extra
+          nickname: nickname
+          id: id
+          state: state
+          heartbeatTime: 9
+          corpId: corpId
+          contactId: contactId
+          platformTags:
+          - platformTags
+          - platformTags
+          avatar: avatar
+          customID: customID
+          deviceID: deviceID
+          tags:
+          - tags
+          - tags
+          platformUid2: 6
+          deleted: 3
+          tenantId: tenantId
+          online: 5
+          serviceID: 1
+          virtualDeviceID: virtualDeviceID
+          status: 2
+        serviceID: 0
+        updateType: updateType
+      properties:
+        profilePlatformUid:
+          description: 运营号渠道id
+          type: string
+        profileCustomUid:
+          description: 运营号渠道自定义id
+          type: string
+        serviceID:
+          description: 渠道id
+          format: int32
+          type: integer
+        updateType:
+          description: 更新类型
+          type: string
+        extra:
+          description: 扩展信息
+          type: string
+        profile:
+          $ref: '#/components/schemas/Profile'
+      type: object
+    ProfileDetailReq:
+      example:
+        profileCustomUid: profileCustomUid
+        profilePlatformUid: profilePlatformUid
+        extra: extra
+        serviceID: 0
+      properties:
+        profilePlatformUid:
+          description: 联系人渠道id
+          type: string
+        profileCustomUid:
+          description: 联系人渠道自定义id
+          type: string
+        serviceID:
+          description: 渠道id
+          format: int32
+          type: integer
+        extra:
+          description: 扩展信息
+          type: string
+      type: object
+    AdaptorAPIEvent:
+      properties:
+        type:
+          type: string
+        token:
+          type: string
+        event:
+          properties: {}
+          type: object
+      type: object
+    AdaptorCallbackEvent:
+      properties:
+        type:
+          type: string
+        channelKey:
+          type: string
+        token:
+          type: string
+        innerEvent:
+          properties: {}
+          type: object
+        eventId:
+          type: string
+        eventTime:
+          format: int64
+          type: integer
+        eventContext:
+          type: string
+      type: object
+    ContactMessageEvent:
+      properties:
+        profilePlatformUid:
+          description: 运营号渠道Id
+          type: string
+        contactPlatformUid:
+          description: 联系人渠道Id
+          type: string
+        direction:
+          description: 消息方向 1 接收 2 发送
+          format: int32
+          type: integer
+        messageType:
+          description: 消息类型
+          format: int32
+          type: integer
+        content:
+          description: 消息内容
+          type: string
+        serviceID:
+          description: 渠道Id
+          format: int32
+          type: integer
+        platformMsgId:
+          type: string
+        messageTime:
+          format: int64
+          type: integer
+      type: object
+    AddContactEvent:
+      properties:
+        serviceID:
+          description: 渠道id
+          format: int32
+          type: integer
+        profilePlatformUid:
+          description: 运营号渠道Id
+          type: string
+        addChannel:
+          type: string
+        addTime:
+          format: int64
+          type: integer
+        contact:
+          $ref: '#/components/schemas/Contact'
+      type: object
+    DelContactEvent:
+      properties:
+        serviceID:
+          description: 渠道id
+          format: int32
+          type: integer
+        profilePlatformUid:
+          description: 运营号渠道Id
+          type: string
+        delTime:
+          format: int64
+          type: integer
+        contactPlatformUid:
+          type: string
+      type: object
+    SendCommandReq:
+      example:
+        commandType: commandType
+        serviceID: 0
+        body: '{}'
+      properties:
+        serviceID:
+          description: 渠道id
+          format: int32
+          type: integer
+        commandType:
+          description: 命令类型
+          type: string
+        body:
+          description: 命令内容
+          properties: {}
+          type: object
+      type: object
+    SendCommandRsp:
+      example:
+        commandType: commandType
+        data: '{}'
+        serviceID: 6
+      properties:
+        serviceID:
+          description: 渠道id
+          format: int32
+          type: integer
+        commandType:
+          description: 命令类型
+          type: string
+        data:
+          description: 命令响应内容
+          properties: {}
+          type: object
+      type: object
+    Contact:
+      example:
+        country: country
+        platformUid: platformUid
+        gender: 6
+        city: city
+        signature: signature
+        avatar: avatar
+        type: 1
+        customID: customID
+        tags:
+        - tags
+        - tags
+        extra: extra
+        nickname: nickname
+        id: id
+        state: state
+        serviceID: 5
+      properties:
+        id:
+          description: 联系人id
+          type: string
+        platformUid:
+          description: 运营号渠道id
+          type: string
+        customID:
+          description: 运营号渠道自定义id
+          type: string
+        nickname:
+          description: 昵称
+          type: string
+        avatar:
+          description: 头像
+          type: string
+        gender:
+          description: 性别
+          format: int32
+          type: integer
+        country:
+          description: 国家
+          type: string
+        state:
+          description: 省份
+          type: string
+        city:
+          description: 城市
+          type: string
+        signature:
+          description: 签名
+          type: string
+        type:
+          description: 类型
+          format: int32
+          type: integer
+        serviceID:
+          description: 渠道id
+          format: int32
+          type: integer
+        extra:
+          description: 扩展信息
+          type: string
+        tags:
+          description: 标签
+          items:
+            type: string
+          type: array
+      type: object
+    Profile:
+      example:
+        country: country
+        platformUid: platformUid
+        appVersion: appVersion
+        gender: gender
+        productID: 7
+        city: city
+        signature: signature
+        qrcode: qrcode
+        contactCount: 2
+        balance: 5
+        mobilephone: mobilephone
+        extra: extra
+        nickname: nickname
+        id: id
+        state: state
+        heartbeatTime: 9
+        corpId: corpId
+        contactId: contactId
+        platformTags:
+        - platformTags
+        - platformTags
+        avatar: avatar
+        customID: customID
+        deviceID: deviceID
+        tags:
+        - tags
+        - tags
+        platformUid2: 6
+        deleted: 3
+        tenantId: tenantId
+        online: 5
+        serviceID: 1
+        virtualDeviceID: virtualDeviceID
+        status: 2
+      properties:
+        id:
+          type: string
+        contactId:
+          type: string
+        platformUid:
+          type: string
+        platformUid2:
+          format: int64
+          type: integer
+        customID:
+          type: string
+        nickname:
+          type: string
+        avatar:
+          type: string
+        gender:
+          type: string
+        country:
+          type: string
+        state:
+          type: string
+        city:
+          type: string
+        signature:
+          type: string
+        mobilephone:
+          type: string
+        serviceID:
+          format: int32
+          type: integer
+        deviceID:
+          type: string
+        online:
+          format: int32
+          type: integer
+        appVersion:
+          type: string
+        balance:
+          format: int64
+          type: integer
+        qrcode:
+          type: string
+        contactCount:
+          format: int32
+          type: integer
+        extra:
+          type: string
+        tags:
+          items:
+            type: string
+          type: array
+        platformTags:
+          items:
+            type: string
+          type: array
+        productID:
+          format: int32
+          type: integer
+        heartbeatTime:
+          format: int64
+          type: integer
+        virtualDeviceID:
+          type: string
+        tenantId:
+          type: string
+        deleted:
+          format: int32
+          type: integer
+        status:
+          format: int32
+          type: integer
+        corpId:
+          type: string
+      type: object
+    APIResponse:
+      example:
+        msg: msg
+        code: 0
+        data: '{}'
+      properties:
+        code:
+          format: int32
+          type: integer
+        msg:
+          type: string
+        data:
+          properties: {}
+          type: object
+      type: object
+    inline_response_200:
+      example:
+        msg: msg
+        code: 0
+        data: '{}'
+      properties:
+        code:
+          format: int32
+          type: integer
+        msg:
+          type: string
+        data:
+          properties: {}
+          type: object
+    inline_response_200_1:
+      example:
+        msg: msg
+        code: 0
+        data:
+        - country: country
+          platformUid: platformUid
+          gender: 6
+          city: city
+          signature: signature
+          avatar: avatar
+          type: 1
+          customID: customID
+          tags:
+          - tags
+          - tags
+          extra: extra
+          nickname: nickname
+          id: id
+          state: state
+          serviceID: 5
+        - country: country
+          platformUid: platformUid
+          gender: 6
+          city: city
+          signature: signature
+          avatar: avatar
+          type: 1
+          customID: customID
+          tags:
+          - tags
+          - tags
+          extra: extra
+          nickname: nickname
+          id: id
+          state: state
+          serviceID: 5
+      properties:
+        code:
+          type: integer
+        msg:
+          type: string
+        data:
+          items:
+            $ref: '#/components/schemas/Contact'
+          type: array
+    inline_response_200_2:
+      example:
+        msg: msg
+        code: 0
+        data:
+          country: country
+          platformUid: platformUid
+          gender: 6
+          city: city
+          signature: signature
+          avatar: avatar
+          type: 1
+          customID: customID
+          tags:
+          - tags
+          - tags
+          extra: extra
+          nickname: nickname
+          id: id
+          state: state
+          serviceID: 5
+      properties:
+        code:
+          type: integer
+        msg:
+          type: string
+        data:
+          $ref: '#/components/schemas/Contact'
+    inline_response_200_3:
+      example:
+        msg: msg
+        code: 0
+        data:
+          country: country
+          platformUid: platformUid
+          appVersion: appVersion
+          gender: gender
+          productID: 7
+          city: city
+          signature: signature
+          qrcode: qrcode
+          contactCount: 2
+          balance: 5
+          mobilephone: mobilephone
+          extra: extra
+          nickname: nickname
+          id: id
+          state: state
+          heartbeatTime: 9
+          corpId: corpId
+          contactId: contactId
+          platformTags:
+          - platformTags
+          - platformTags
+          avatar: avatar
+          customID: customID
+          deviceID: deviceID
+          tags:
+          - tags
+          - tags
+          platformUid2: 6
+          deleted: 3
+          tenantId: tenantId
+          online: 5
+          serviceID: 1
+          virtualDeviceID: virtualDeviceID
+          status: 2
+      properties:
+        code:
+          type: integer
+        msg:
+          type: string
+        data:
+          $ref: '#/components/schemas/Profile'
+    inline_response_200_4:
+      example:
+        msg: msg
+        code: 0
+        data: '{}'
+      properties:
+        code:
+          type: integer
+        msg:
+          type: string
+        data:
+          properties: {}
+          type: object
+    inline_response_200_5:
+      example:
+        msg: msg
+        code: 0
+        data:
+          commandType: commandType
+          data: '{}'
+          serviceID: 6
+      properties:
+        code:
+          type: integer
+        msg:
+          type: string
+        data:
+          $ref: '#/components/schemas/SendCommandRsp'
