@@ -1,4 +1,4 @@
-module github.com/GIT_USER_ID/GIT_REPO_ID
+module github.com/xopenapi/uim-channel-adaptor-api-go
 
 go 1.15
 
